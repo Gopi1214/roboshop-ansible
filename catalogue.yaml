@@ -19,15 +19,15 @@
       path: /app
       state: directory
    
-  #  - name: downloading file catalogue.zip
-  #    ansible.builtin.get_url:
-  #      url: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
-  #      dest: /tmp/catalogue.zip
+  - name: downloading file catalogue.zip
+    ansible.builtin.get_url:
+      url: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+      dest: /tmp
     
-  #  - name: unarchile the zip file
-  #    ansible.builtin.unarchive:
-  #      src: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
-  #      dest: /tmp/catalogue.zip
+  - name: unarchile the zip file
+    ansible.builtin.unarchive:
+      src: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+      dest: /app
 
   #  - name: change directory
   #    ansible.builtin.file:
