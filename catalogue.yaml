@@ -49,7 +49,7 @@
    
   - name: copying mongodb.repo file
     ansible.builtin.copy:
-       src: mongo.repo
+       src: mongodb.repo
        dest: /etc/yum.repos.d/mongo.repo
 
   - name : installing mongodb-org-shell
