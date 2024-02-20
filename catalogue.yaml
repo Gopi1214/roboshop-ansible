@@ -48,7 +48,7 @@
   # lets start after the data is loaded
    
   - name: copying mongodb.repo file
-     ansible.builtin.copy:
+    ansible.builtin.copy:
        src: mongo.repo
        dest: /etc/yum.repos.d/mongo.repo
 
