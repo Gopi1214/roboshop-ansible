@@ -28,6 +28,8 @@
     ansible.builtin.unarchive:
       src: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
       dest: /app
+      remote_src: yes
+
 
   #  - name: change directory
   #    ansible.builtin.file:
