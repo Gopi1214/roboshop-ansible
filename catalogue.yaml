@@ -52,10 +52,19 @@
        src: mongodb.repo
        dest: /etc/yum.repos.d/mongo.repo
 
-  - name : installing mongodb-org-shell
+  - name: installing mongodb-org-shell
     ansible.builtin.package: 
       name: mongodb-org-shell
       state: present
+
+  - name: get the catalogue product count
+    ansible.builtin.command: mongo --host mongodb.pjdevops.online --quiet --eval 'db = db.getSiblingDB("catalogue"); db.products.count()'
+    register: product_count
+
+  - name: print the product count
+    ansible.builtin.debug:
+      msg: "product count: {{product_count}}"
+
 
     
   # - name: loading data from mongodb to catalogue
