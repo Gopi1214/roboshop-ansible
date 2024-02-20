@@ -3,7 +3,7 @@
   become: yes
   tasks:
    - name: disbling existing and enabling nodejs:18
-     ansible.builtin.shell: dnf module disable nodejs, dnf module enable nodejs:18;
+     ansible.builtin.shell: dnf module disable nodejs -y ; dnf module enable nodejs:18 -y
 
    - name: installing nodejs
      ansible.builtin.package:
@@ -14,44 +14,45 @@
      ansible.builtin.user:
        name: roboshop
        
-   - name: creating /app directory
-     ansible.builtin.file:
-       path: /app
-   
-   - name: downloading file catalogue.zip
-     ansible.builtin.get_url:
-       url: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
-       dest: /tmp/catalogue.zip
-    
-   - name: unarchile the zip file
-     ansible.builtin.unarchive:
-       src: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
-       dest: /tmp/catalogue.zip
-
-   - name: change directory
+   - name: creating app directory
      ansible.builtin.file:
        path: /app
        state: directory
-
-   - name: copying catalogue.service
-     ansible.builtin.copy:
-       src: catalogue.service
-       dest: /etc/systemd/system/catalogue.service
-
-   - name: deamon reload
-     ansible.builtin.systemd_service:
-       deamon_reload: true
    
-   - name: enable and start catalogue
-     ansible.builtin.service:
-       name: catalogue
-       state: started
-       enabled: yes
-
-   - name: copying mongodb.repo file
-     ansible.builtin.copy:
-       src: mongo.repo
-       dest: /etc/yum.repos.d/mongo.repo
+  #  - name: downloading file catalogue.zip
+  #    ansible.builtin.get_url:
+  #      url: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+  #      dest: /tmp/catalogue.zip
     
-   - name: loading data from mongodb to catalogue
-     ansible.builtin.command: mongo --host mongodb.pjdevops.online < /app/schema/catalogue.js
+  #  - name: unarchile the zip file
+  #    ansible.builtin.unarchive:
+  #      src: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+  #      dest: /tmp/catalogue.zip
+
+  #  - name: change directory
+  #    ansible.builtin.file:
+  #      path: /app
+  #      state: directory
+
+  #  - name: copying catalogue.service
+  #    ansible.builtin.copy:
+  #      src: catalogue.service
+  #      dest: /etc/systemd/system/catalogue.service
+
+  #  - name: deamon reload
+  #    ansible.builtin.systemd_service:
+  #      deamon_reload: true
+   
+  #  - name: enable and start catalogue
+  #    ansible.builtin.service:
+  #      name: catalogue
+  #      state: started
+  #      enabled: yes
+
+  #  - name: copying mongodb.repo file
+  #    ansible.builtin.copy:
+  #      src: mongo.repo
+  #      dest: /etc/yum.repos.d/mongo.repo
+    
+  #  - name: loading data from mongodb to catalogue
+  #    ansible.builtin.command: mongo --host mongodb.pjdevops.online < /app/schema/catalogue.js
