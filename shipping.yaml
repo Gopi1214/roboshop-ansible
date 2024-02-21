@@ -34,9 +34,7 @@
       remote_src: yes
 
   - name: downloading the dependencies
-    ansible.builtin.package:
-      name: mvn clean package
-      state: present
+    ansible.builtin.command: mvn clean package
     args: 
       chdir: /app
 
@@ -69,7 +67,7 @@
 
   - name: loading the shipping schema
     ansible.builtin.command: mysql -h mysql.pjdevops.online -uroot -pRoboShop@1 < /app/schema/shipping.sql 
-    when: shipping_count.stdout == 0
+    when: shipping_count.stdout == "0"
 
   - name: start, enable the shipping
     ansible.builtin.service:
