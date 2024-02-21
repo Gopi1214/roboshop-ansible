@@ -1,0 +1,78 @@
+- name: setting up shipping component
+  hosts: shipping
+  become: yes
+  tasks:
+  - name: instaling maven
+    ansible.builtin.package:
+      name: maven
+      state: present
+    
+  - name: creating user roboshop
+    ansible.builtin.user:
+      name: roboshop
+      state: present
+
+  - name: recursively removing the directory
+    ansible.builtin.file:
+      name: /app
+      state: absent
+  
+  - name: creating directory
+    ansible.builtin.file:
+      name: /app
+      state: directory
+
+  - name: downloading the application code shipping
+    ansible.builtin.get_url:
+      url: https://roboshop-builds.s3.amazonaws.com/shipping.zip
+      dest: /tmp
+
+  - name: unzip the shipping file
+    ansible.builtin.unarchive:
+      url: /tmp/shipping.zip
+      dest: /app
+      remote_src: yes
+
+  - name: downloading the dependencies
+    ansible.builtin.package:
+      name: mvn clean package
+      state: present
+    args: 
+      chdir: /app
+
+  - name: renaming shipping jar file
+    ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar
+    args: 
+      chdir: /app
+
+  - name:  copying shipping.service
+    ansible.builtin.copy:
+      src: shipping.service
+      dest: /etc/systemd/system/shipping.service
+  
+  - name: daemon reload
+    ansible.builtin.systemd_service:
+      daemon_reload: true
+  
+  - name: installing mysql client
+    ansible.builtin.packsge:
+      name: mysql
+      state: present
+
+  - name: checking shipping count
+    ansible.builtin.command: mysql --host mysql.pjdevops.online --quiet --eval 'db = db.getSiblindDB("shipping"); db= db.shipping.count()'
+    register: shipping_count
+
+  - name: debug the shippinmg count
+    ansible.builtin.debug:
+      msg: "shipping count:{{shipping_coount}}"
+
+  - name: loading the shipping schema
+    ansible.builtin.command: mysql -h mysql.pjdevops.online -uroot -pRoboShop@1 < /app/schema/shipping.sql 
+    when: shipping_count.stdout == 0
+
+  - name: start, enable the shipping
+    ansible.builtin.service:
+      name: shipping
+      state: present
+      enabbled: yes
