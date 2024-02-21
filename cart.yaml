@@ -30,7 +30,7 @@
       dest: /tmp
 
   - name: unarchive cart.zip
-    ansible.builin.unarchive:
+    ansible.builtin.unarchive:
       src: /tmp/cart.zip
       dest: /app
       remote_src: yes
