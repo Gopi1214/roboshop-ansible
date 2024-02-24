@@ -36,9 +36,9 @@
     ansible.builtin.systemd_service:
       daemon_reload: true
 
-  - name: start and enable dispacth
+  - name: start and enable dispatch
     ansible.builtin.service:
-      name: dispacth
+      name: dispatch
       state: restarted
       enabled: yes
       
