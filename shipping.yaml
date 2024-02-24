@@ -53,7 +53,7 @@
   
   - name: daemon reload
     ansible.builtin.systemd_service:
-      daemon_reload: true
+    daemon_reload: true
   
   - name: installing mysql client
     ansible.builtin.package:
@@ -77,4 +77,4 @@
       name: shipping
       state: restarted
       enabbled: yes
-      force: yes
+  
