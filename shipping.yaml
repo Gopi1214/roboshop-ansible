@@ -77,3 +77,4 @@
       name: shipping
       state: restarted
       enabbled: yes
+      force: yes
