@@ -28,7 +28,12 @@
       remote_src: yes
 
   - name: installing dependencies
-    ansible.builtin.shell: go mod init dispatch ; go get ; go build
+    ansible.builtin.package:
+      name: "{{item}}" 
+    loop:
+    - go mod init dispatch 
+    - go get 
+    - go build
     args:
       chdir: /app
 
