@@ -76,6 +76,5 @@
     ansible.builtin.service:
       name: shipping
       state: restarted
-      enabbled: yes
-      daemon_reload: true
+      enabled: yes
   
