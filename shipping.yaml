@@ -33,6 +33,7 @@
     ansible.builtin.unarchive:
       url: /tmp/shipping.zip
       dest: /app
+      remote_src: yes
     
 
   - name: downloading the dependencies
