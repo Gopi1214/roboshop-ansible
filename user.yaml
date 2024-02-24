@@ -60,7 +60,7 @@
       state: present
 
   - name: get the user product count
-    ansible.builtin.command: mongo --host mongodb.pjdevops.online --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
+    ansible.builtin.command: mongo --host mongodb.gmdproducts.online --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
     register: user_count
 
   - name: printing the user count
@@ -68,7 +68,7 @@
       msg: "printing the user count {{user_count}}"
 
   - name: loading /app/schema/user.js
-    ansible.builtin.command: mongo --host mongodb.pjdevops.online < /app/schema/user.js
+    ansible.builtin.command: mongo --host mongodb.gmdproducts.online < /app/schema/user.js
     when: user_count.stdout == "0"
 
   - name: start, enable user services
