@@ -1,5 +1,5 @@
 - name: setting up dispatch module
-  hosts: dispacth
+  hosts: dispatch
   become: yes
   tasks:
   - name: installing golang
