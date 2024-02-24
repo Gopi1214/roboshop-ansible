@@ -61,7 +61,7 @@
       state: present
 
   - name: checking cites schema exists or not
-    ansible.builtin.shell: mysql -h mysql.daws76s.online -uroot -p{{mysql_password}} -sN -e "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'cities'"
+    ansible.builtin.shell: mysql -h mysql.pjdevops.online -uroot -p{{mysql_password}} -sN -e "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'cities'"
     register: cities_schema
 
   - name: debug the shippinmg count
