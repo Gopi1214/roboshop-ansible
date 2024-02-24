@@ -4,12 +4,21 @@
   tasks:
   - name: installing python 3.6
     ansible.builtin.package:
-      name: python36 gcc python3-devel
-      state: present
+      name: {{item}}
+      state: 
+    loop: 
+      - python36 
+      - gcc 
+      - python3-devel
   
   - name: creating user roboshop
     ansible.builtin.user:
       name: roboshop
+
+  - name : recursively removing the app directory
+    ansible.builtin.file:
+      name: /app
+      state: absent
 
   - name: creating app directory
     ansible.builtin.file:
@@ -23,17 +32,20 @@
 
   - name: unarchive the payment.zip
     ansible.builtin.unarchive:
-      src: https://roboshop-builds.s3.amazonaws.com/payment.zip
+      src: /tmp/payment.zip
       dest: /app
+      remote_src: yes
   
   - name: downloading dependencies
     ansible.builtin.command: pip3.6 install -r requirements.txt
+    args:
+      chdir: /app
 
   - name: copying payment.service
     ansible.builtin.copy:
       src: payment.service
       dest: /etc/systemd/system/payment.service
-      remote_src: yes
+    
 
   - name: daemon reload
     ansible.builtin.systemd_service:
@@ -42,7 +54,7 @@
   - name: start and enable payment services
     ansible.builtin.service:
       name: payment
-      state: started
+      state: restarted
       enabled: yes
 
 

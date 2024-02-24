@@ -1,6 +1,8 @@
 - name: setting up shipping component
   hosts: shipping
   become: yes
+  vars: 
+    mysql_password: RoboShop@1
   tasks:
   - name: instaling maven
     ansible.builtin.package:
@@ -57,20 +59,20 @@
       name: mysql
       state: present
 
-  - name: checking shipping count
-    ansible.builtin.command: mysql --host mysql.pjdevops.online --quiet --eval 'db = db.getSiblindDB("shipping"); db= db.shipping.count()'
-    register: shipping_count
+  - name: checking cites schema exists or not
+    ansible.builtin.command: mysql -h mysql.daws76s.online -uroot -p{{mysql_password}} -sN -e "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'cities'"
+    register: cities_schema
 
   - name: debug the shippinmg count
     ansible.builtin.debug:
-      msg: "shipping count:{{shipping_coount}}"
+      msg: "cities count:{{cities_schema}}"
 
   - name: loading the shipping schema
-    ansible.builtin.command: mysql -h mysql.pjdevops.online -uroot -pRoboShop@1 < /app/schema/shipping.sql 
-    when: shipping_count.stdout == "0"
+    ansible.builtin.command: mysql -h mysql.pjdevops.online -uroot -p{{mysql_password}} < /app/schema/shipping.sql 
+    when: cities_schema.stdout == "0"
 
   - name: start, enable the shipping
     ansible.builtin.service:
       name: shipping
-      state: present
+      state: restarted
       enabbled: yes
