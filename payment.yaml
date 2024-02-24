@@ -28,7 +28,7 @@
   - name: downloading payment.zip
     ansible.builtin.get_url:
       url: https://roboshop-builds.s3.amazonaws.com/payment.zip
-      path: /tmp
+      dest: /tmp
 
   - name: unarchive the payment.zip
     ansible.builtin.unarchive:
