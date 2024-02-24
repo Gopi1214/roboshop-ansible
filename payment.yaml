@@ -1,5 +1,5 @@
 - name: setting up payment component
-  hosts: payment
+  hosts: payments
   become: yes
   tasks:
   - name: installing python 3.6
