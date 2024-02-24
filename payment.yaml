@@ -7,9 +7,9 @@
       name: {{item}}
       state: 
     loop: 
-      - python36 
-      - gcc 
-      - python3-devel
+    - python36 
+    - gcc 
+    - python3-devel
   
   - name: creating user roboshop
     ansible.builtin.user:
